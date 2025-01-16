@@ -1,0 +1,31 @@
+ext {
+    androidMinSdkVersion = 26
+    androidTargetSdkVersion = 34
+    androidCompileSdkVersion = 34
+
+    kotlinCoroutinesVersion = '1.6.4'
+    kotlinVersion = '1.9.23'
+
+    androidxVersion = '1.5.0'
+    androidxCoreVersion = '1.6.0'
+    androidxCollectionVersion = '1.1.0'
+    androidxLifecycleVersion = '2.4.0-rc01'
+    androidxLifecycleProcessVersion = '2.6.2'
+
+    androidxActivityComposeVersion = '1.7.0'
+    androidxComposeCompilerVersion = '1.5.12'
+    androidxComposeMaterialVersion = '1.6.6'
+    androidxComposeMaterial3Version = '1.2.1'
+    androidxComposeNavigationVersion = '2.7.7'
+    androidxComposeRuntimeVersion = '1.6.6'
+    androidxComposeLifecycleVersion = '2.6.1'
+    constraintLayoutComposeVersion = '1.0.1'
+
+    daggerVersion = '2.48.1'
+    daggerDebugVersion = '3.0.2'
+
+    junitVersion = '4.13.2'
+    junit5Version = '5.8.2'
+    junit5AndroidGradlePluginVersion = '1.8.2.1'
+
+}

@@ -1,0 +1,5 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_check_success
+string approve
+string select_city

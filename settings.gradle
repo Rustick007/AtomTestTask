@@ -1,0 +1,24 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "AtomTestTask"
+include ':app'
+include ':core'
+
+include ':feature'
+include ':feature:citylist'
+include ':feature:chargingstationslist'
+include ':data'
+include ':domain'

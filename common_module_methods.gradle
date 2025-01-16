@@ -1,0 +1,242 @@
+ext {
+    androidAnotationVersion = '1.1.0'
+    androidxLifecycleRuntimeVersion = "2.6.2"
+    generatorCoreVersionStable = "11.2.0@aar"
+    generatorCoreVersionDevelop = "11.2.0@aar"
+    multiplatformSettings = "1.0.0-RC"
+    stickyScrollViewVetsion = "1.0.1"
+    ktorVersion = "2.2.2"
+    kodeinVersion = "7.16.0"
+    pagingVersion = "3.0.1"
+    recyclerAnimationVersion = "4.0.1"
+    configVersion = '21.0.1'
+    roomVersion = '2.4.0'
+    sseClientVersion = '5.1.0.3'
+    cryptoPrefsVersion = '1.1.0-alpha03'
+    prefsVersion = '1.1.1'
+    jsoupVersion = '1.14.3'
+    bartekscVersion = 'd243b39'
+    touchImageViewVersion = '3.1.1'
+    localBroadcastVersion = '1.0.0'
+    hiltFersion = '2.48.1'
+    hiltNavigationFersion = '1.0.0'
+    jsoupVersion = '1.14.3'
+    gsonVersion = '2.8.7'
+    coreKtxVersion = '1.7.0'
+
+    composeDependencies = [
+            // Integration with activities
+            activityCompose          : "androidx.activity:activity-compose:$androidxActivityComposeVersion",
+            // Compose Material Design
+            composeMaterial          : "androidx.compose.material:material:$androidxComposeMaterialVersion",
+            // Compose Material 3 Design
+            composeMaterial3         : "androidx.compose.material3:material3:$androidxComposeMaterial3Version",
+            // Animations
+            composeAnimation         : "androidx.compose.animation:animation:$androidxComposeMaterialVersion",
+            // Tooling support (Previews, etc.)
+            composeUiToolingPreview  : "androidx.compose.ui:ui-tooling-preview:$androidxComposeMaterialVersion",
+            // Integration with ViewModels
+            composeLifecycleViewmodel: "androidx.lifecycle:lifecycle-viewmodel-compose:$androidxLifecycleVersion",
+
+            composeLifecycleRunntime : "androidx.lifecycle:lifecycle-runtime-compose:$androidxLifecycleRuntimeVersion",
+
+            // Constraintlayout-compose
+            constraintCompose        : "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutComposeVersion",
+    ]
+
+    // Tooling support (Previews, etc.)
+    composeUiTooling = "androidx.compose.ui:ui-tooling:$androidxComposeMaterialVersion"
+    // UI Tests
+    composeUiTest = "androidx.compose.ui:ui-test-junit4:$androidxComposeMaterialVersion"
+    //DI
+    hiltNavigationDependency = "androidx.hilt:hilt-navigation-compose:$hiltNavigationFersion"
+    hiltDependency = "com.google.dagger:hilt-android:$hiltFersion"
+    hiltCompilerDependency = "com.google.dagger:hilt-compiler:$hiltFersion"
+    kaptHiltDependency = "com.google.dagger:hilt-compiler:$hiltFersion"
+
+    kotlinDependencies = [
+            kotlin          : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+            kotlinCoroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion",
+    ]
+
+    androidxDependencies = [
+            appCompat : "androidx.appcompat:appcompat:$androidxVersion",
+            core      : "androidx.core:core-ktx:$androidxCoreVersion",
+            annotation: "androidx.annotation:annotation:$androidAnotationVersion",
+            resources : "androidx.appcompat:appcompat-resources:$androidAnotationVersion"
+    ]
+
+    gsonDependency = "com.google.code.gson:gson:$gsonVersion"
+
+    applyAndroidConfiguration = { module ->
+        module.configure(module) {
+            apply plugin: 'com.android.library'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'kotlin-parcelize'
+            apply plugin: 'kotlin-kapt'
+
+            android {
+                compileSdkVersion androidCompileSdkVersion
+
+                defaultConfig {
+                    minSdkVersion androidMinSdkVersion
+                    targetSdkVersion androidTargetSdkVersionrootBeerVersion
+
+                    vectorDrawables.useSupportLibrary = true
+                }
+
+                buildTypes {
+                    debug {
+                        minifyEnabled false
+                        debuggable true
+                        aaptOptions.cruncherEnabled = false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                        manifestPlaceholders = [
+                                techActivityAvailable: "true",
+                                defaultOrientation   : "unspecified",
+                                cleartextTraffic     : "true"
+                        ]
+                    }
+
+                    beta {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                        manifestPlaceholders = [
+                                techActivityAvailable: "true",
+                                defaultOrientation   : "portrait",
+                                cleartextTraffic     : "true"
+                        ]
+                    }
+
+                    release {
+                        minifyEnabled true
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                        manifestPlaceholders = [
+                                techActivityAvailable: "false",
+                                defaultOrientation   : "portrait",
+                                cleartextTraffic     : "false"
+                        ]
+                    }
+                }
+
+                kotlin {
+                    kapt {
+                        useBuildCache = true
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_11
+                    targetCompatibility JavaVersion.VERSION_11
+                }
+
+                kotlinOptions {
+                    jvmTarget = JavaVersion.VERSION_11.toString()
+                }
+
+                packagingOptions {
+                    exclude 'META-INF/library_release.kotlin_module'
+                    exclude 'META-INF/AL2.0'
+                    exclude 'META-INF/LGPL2.1'
+                }
+            }
+        }
+
+        module.dependencies {
+            implementation fileTree(include: ['*.jar'], dir: 'libs')
+            implementation kotlinDependencies.values()
+        }
+    }
+
+    applyAndroidConfigurationModule = { module ->
+        module.configure(module) {
+            apply plugin: 'com.android.library'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'kotlin-kapt'
+            apply plugin: 'kotlin-parcelize'
+            apply plugin: 'dagger.hilt.android.plugin'
+            android {
+                compileSdk androidCompileSdkVersion
+                defaultConfig {
+                    minSdk androidMinSdkVersion
+                    targetSdk androidTargetSdkVersion
+                    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+                    consumerProguardFiles "consumer-rules.pro"
+                }
+                buildTypes {
+                    release {
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                    }
+                }
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_1_8
+                    targetCompatibility = JavaVersion.VERSION_1_8
+                }
+                kotlinOptions {
+                    jvmTarget = JavaVersion.VERSION_1_8.toString()
+                }
+            }
+        }
+
+        module.dependencies {
+            implementation kotlinDependencies.values()
+            implementation hiltNavigationDependency
+            implementation hiltDependency
+            kapt kaptHiltDependency
+        }
+    }
+
+    applyDagger = { module ->
+        module.dependencies {
+            implementation javaxInjectDependency
+
+            implementation daggerDependency
+            implementation daggerSupportDependency
+            implementation daggerBuildTraceDependency
+            kapt kaptDaggerDependency
+
+            implementation daggerAndroidDependency
+            kapt kaptDaggerAndroidDependency
+        }
+    }
+
+    applyLifecycle = { module ->
+        module.dependencies {
+            implementation lifecycleKtxDependency
+            kapt kaptLifecycleDependency
+        }
+    }
+
+    applyUnitTest = { module ->
+        module.dependencies {
+            testImplementation unitTestDependencies.values()
+        }
+    }
+
+    applyUITest = { module ->
+        module.dependencies {
+            androidTestImplementation uiTestDependencies.values()
+        }
+    }
+
+    applyCompose = { module ->
+        module.configure(module) {
+            android {
+                buildFeatures {
+                    // Enables Jetpack Compose for this module
+                    compose true
+                }
+                composeOptions {
+                    kotlinCompilerExtensionVersion androidxComposeCompilerVersion
+                }
+            }
+        }
+
+        module.dependencies {
+            implementation composeDependencies.values()
+            debugImplementation composeUiTooling
+            androidTestImplementation composeUiTest
+        }
+    }
+}
