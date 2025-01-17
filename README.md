@@ -2,6 +2,7 @@
 
 При создании приложения были использованы следующие подходы:
     - Kotlin.
+
     - MVVM + MVI.
     - Coroutines.
     - Clean Architecture.
