@@ -13,7 +13,7 @@
     - для построения UI были созданы копмонененты Indicator() и SelectItem.
     - для демонстрации проброса данных был применен Data Provider c Flow.
     
-Видео-демонстрация работы приложения
+Видео-демонстрация работы приложения:
 
-https://github.com/user-attachments/assets/e9d2d6f8-8088-4a8f-9923-a32a8adfd128
+https://github.com/user-attachments/assets/d0d26fa5-7388-4946-b663-bbf66da7c83f
 
