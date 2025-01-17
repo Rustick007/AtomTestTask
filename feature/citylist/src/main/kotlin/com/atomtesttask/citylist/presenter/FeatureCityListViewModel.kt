@@ -1,13 +1,15 @@
 package com.atomtesttask.citylist.presenter
 
-import com.atomtesttask.chargingstationslist.navigation.FeatureCharingStationsDestinations
 import com.atomtesttask.citylist.dataprovider.DataProvider
+import com.atomtesttask.citylist.models.Constants
+import com.atomtesttask.citylist.navigation.FeatureCityListDestinations
 import com.atomtesttask.citylist.presenter.FeatureCityListContract.Effect
 import com.atomtesttask.citylist.presenter.FeatureCityListContract.Event
 import com.atomtesttask.citylist.presenter.FeatureCityListContract.State
 import com.atomtesttask.core.base.FeatureViewModel
 import com.atomtesttask.domain.usecases.GetChargingStationsDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,17 +32,18 @@ constructor(
 
     private fun getData() {
         viewModelScope.launch {
+            delay(Constants.digital.l1000)
             getChargingStationsDataUseCase.getChargingStationsData()
                 .onSuccess {
                     setState {
+                        copy(isLoading = false)
+                    }
+                    setState {
                         copy(allData = it)
                     }
+                    dataProvider.setAllData(it)
                     dataProvider
                         .observeUniqCities()
-//                    dataProvider
-//                        .setAllData(it)
-//                    setListOfUniqCities()
-
                 }
                 .onFailure { e ->
                     e.printStackTrace()
@@ -58,13 +61,13 @@ constructor(
     }
 
     private fun onObservers() {
-
+        setListOfUniqCities()
     }
 
     override fun setInitialState() = State.default()
 
     override fun onErrorHandler(exception: Throwable) {
-        TODO("Not yet implemented")
+        TODO("хэндлер для обработки ошибок")
     }
 
     override fun handleEvents(event: Event) {
@@ -84,10 +87,15 @@ constructor(
                 setState {
                     copy(clickedCity = event.name)
                 }
+                dataProvider.setChosenCity(event.name)
             }
 
             is Event.ActionsEvent.GoToSecondScreen -> {
-                navigationManager.navigate(FeatureCharingStationsDestinations.Common.COMMON_ROOT_ROUT)
+                navigationManager.navigate(
+                    FeatureCityListDestinations.Common.ChargerList.getNavigationRoute(
+                        FeatureCityListDestinations.Common.CHARGER_LIST_ROUT,
+                    )
+                )
             }
         }
     }

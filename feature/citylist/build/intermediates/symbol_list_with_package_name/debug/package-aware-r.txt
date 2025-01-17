@@ -1,4 +1,0 @@
-com.atomtesttask.citylist
-drawable ic_check_success
-string approve
-string select_city

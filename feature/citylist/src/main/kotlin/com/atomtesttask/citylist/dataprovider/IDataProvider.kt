@@ -13,5 +13,12 @@ interface IDataProvider {
 
     fun getUniqCitiesList() : StateFlow<List<String>>
 
+    suspend fun filterByCity(city: String)
+
+    fun getFilteredByCitiesList() : StateFlow<List<ChargingStationsModel>>
+
+    fun setChosenCity(city: String)
+
+    fun getChosenCity(): StateFlow<String>
 
 }

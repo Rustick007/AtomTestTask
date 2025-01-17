@@ -19,6 +19,5 @@ include ':core'
 
 include ':feature'
 include ':feature:citylist'
-include ':feature:chargingstationslist'
 include ':data'
 include ':domain'

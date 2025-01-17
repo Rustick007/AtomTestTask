@@ -1,2 +1,0 @@
-int string back 0x0
-int string stations_list 0x0

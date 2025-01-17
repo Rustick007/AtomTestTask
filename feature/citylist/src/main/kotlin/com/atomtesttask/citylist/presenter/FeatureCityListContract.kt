@@ -10,6 +10,7 @@ import com.atomtesttask.domain.model.ChargingStationsModel
 internal class FeatureCityListContract {
 
     data class State(
+        val isLoading: Boolean,
         val clickedCity: String,
         val allData: List<ChargingStationsModel>,
         val listOfUniqCities: List<String>
@@ -18,7 +19,8 @@ internal class FeatureCityListContract {
             fun default() = State(
                 clickedCity = Constants.STRING_EMPTY,
                 allData = AllDataModel.emptyDataModel(),
-                listOfUniqCities = emptyList()
+                listOfUniqCities = emptyList(),
+                isLoading = true
             )
         }
     }

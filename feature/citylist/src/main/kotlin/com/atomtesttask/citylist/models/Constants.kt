@@ -20,11 +20,16 @@ internal data class Digital(
     val i4: Int = 4,
     val i5: Int = 5,
     val i10: Int = 10,
+    val i90: Int = 90,
+    val i360: Int = 360,
+    val i1100: Int = 1100,
+    val l1000: Long = 1000,
     val f1: Float = 1f,
     val f04: Float = 0.4f,
     val f05: Float = 0.5f,
     val f06: Float = 0.6f,
     val f08: Float = 0.8f,
+    val f90: Float = 90f
 )
 
 internal data class Dimensions(

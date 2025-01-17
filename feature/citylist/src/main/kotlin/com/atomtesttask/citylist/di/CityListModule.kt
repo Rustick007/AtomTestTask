@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface CityListModule {
-
     @Singleton
     @Binds
     fun bindCityListDataProvider(impl: DataProvider): IDataProvider

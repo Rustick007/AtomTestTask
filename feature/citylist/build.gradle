@@ -9,7 +9,4 @@ android {
 dependencies {
     implementation project(path: ':core')
     implementation project(':domain')
-    implementation project(':feature:chargingstationslist')
-    //  implementation project(path: ':data')
-   // implementation project(path: ':domain')
 }

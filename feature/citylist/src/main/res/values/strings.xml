@@ -2,4 +2,5 @@
 <resources>
     <string name="select_city">Выберите город</string>
     <string name="approve">Подтвердить</string>
+    <string name="back">Назад</string>
 </resources>

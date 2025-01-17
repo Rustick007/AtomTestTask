@@ -1,3 +1,0 @@
-com.atomtesttask.chargingstationslist
-string back
-string stations_list

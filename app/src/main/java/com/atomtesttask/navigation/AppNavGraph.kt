@@ -17,9 +17,5 @@ fun AppNavGraph(navController: NavHostController, startDestination: String) {
             provider.cityListFeature(),
             navController = navController,
         )
-        register(
-            provider.chargingStationsListFeature(),
-            navController = navController
-        )
     }
 }

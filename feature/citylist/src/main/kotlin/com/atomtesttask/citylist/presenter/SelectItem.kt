@@ -63,6 +63,7 @@ object SelectItem {
                             Constants.dimensions.x1
                     ),
                 text = title ?: Constants.STRING_EMPTY,
+                fontSize = Constants.fontSize.f16,
                 style = MaterialTheme.typography.h6,
                 color = if (isEnable && isChecked) Color.Red
                 else if (isEnable) Color.Black
@@ -80,7 +81,8 @@ object SelectItem {
                 tint = if (isEnable) Color.Red
                 else Color.LightGray
             )
-            if (!subtitleLeft.isNullOrEmpty()) Text(
+            if (!subtitleLeft.isNullOrEmpty())
+                Text(
                 modifier = Modifier
                     .constrainAs(subtitleLeftRef) {
                         start.linkTo(parent.start)

@@ -1,4 +1,4 @@
-package com.atomtesttask.citylist.presenter
+package com.atomtesttask.citylist.presenter.chargingstations
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,27 +27,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.atomtesttask.citylist.R
 import com.atomtesttask.citylist.models.Constants
-import com.atomtesttask.citylist.models.FeatureStateEventEffectModel
+import com.atomtesttask.citylist.models.FeatureCharingStationsStateEventEffectModel
+import com.atomtesttask.citylist.presenter.SelectItem
 import com.atomtesttask.core.base.ScreenRoute
 
-private val localStateEventEffectModel = compositionLocalOf<FeatureStateEventEffectModel> {
-    error("No StateEventEffectModel class found!")
-}
+private val localStateEventEffectModel =
+    compositionLocalOf<FeatureCharingStationsStateEventEffectModel> {
+        error("No StateEventEffectModel class found!")
+    }
 
 @Composable
-internal fun FeatureCityListNavGraph() {
-    val viewModel = hiltViewModel<FeatureCityListViewModel>()
+internal fun FeatureCharingStationsNavGraph() {
+    val viewModel = hiltViewModel<FeatureCharingStationsViewModel>()
     ScreenRoute(viewModel = viewModel) { state, onEventSent ->
-        FeatureCityListScreen(state = state, onEvent = onEventSent)
+        Column(modifier = Modifier.fillMaxSize()) {
+            FeatureCharingStationsScreen(state = state, onEvent = onEventSent)
+        }
     }
 }
 
 @Composable
-private fun FeatureCityListScreen(
-    state: FeatureCityListContract.State,
-    onEvent: (event: FeatureCityListContract.Event) -> Unit
+private fun FeatureCharingStationsScreen(
+    state: FeatureCharingStationsContract.State,
+    onEvent: (event: FeatureCharingStationsContract.Event) -> Unit
 ) {
-    val model = FeatureStateEventEffectModel(state = state, event = onEvent)
+    val model = FeatureCharingStationsStateEventEffectModel(state = state, event = onEvent)
     CompositionLocalProvider(localStateEventEffectModel provides model) {
         CreateScreen()
     }
@@ -58,48 +62,41 @@ private fun CreateScreen() {
     val state = localStateEventEffectModel.current.state
     val event = localStateEventEffectModel.current.event
     Box(modifier = Modifier.fillMaxSize()) {
-        if (state.isLoading) {
-            Indicator(modifier = Modifier.align(Alignment.Center))
-        } else {
-            Column(
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .background(
+                    Color.White
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .background(
-                        Color.White
-                    ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(vertical = Constants.dimensions.x5),
-                    text = stringResource(id = R.string.select_city),
-                    textAlign = TextAlign.Center,
-                    fontSize = Constants.fontSize.f24
-                )
-                LazyColumn {
-                    itemsIndexed(items = state.listOfUniqCities) { index, _ ->
-                        SelectItem.Item(
-                            modifier = Modifier.padding(horizontal = Constants.dimensions.x2_5),
-                            title = state.listOfUniqCities[index],
-                            onClick = {
-                                event.invoke(
-                                    FeatureCityListContract.Event.ActionsEvent.CityClicked(
-                                        state.listOfUniqCities[index]
-                                    )
-                                )
-                            },
-                            isChecked = state.clickedCity == state.listOfUniqCities[index]
-                        )
-                        Divider(
-                            modifier = Modifier.padding(
-                                bottom = Constants.dimensions.x3,
-                                start = Constants.dimensions.x2_5,
-                                end = Constants.dimensions.x2_5,
-                            ),
-                            color = Color.LightGray,
-                        )
-                    }
+                    .padding(vertical = Constants.dimensions.x5),
+                text = stringResource(id = R.string.select_city),
+                textAlign = TextAlign.Center,
+                fontSize = Constants.fontSize.f24
+            )
+            LazyColumn {
+                itemsIndexed(items = state.filteredByCities) { index, _ ->
+                    SelectItem.Item(
+                        modifier = Modifier.padding(horizontal = Constants.dimensions.x2_5),
+                        title = state.filteredByCities[index].charger.name,
+                        subtitleLeft = state.filteredByCities[index].charger.address,
+                        backgroundColor = if (state.filteredByCities[index].charger.busy) Color.Red.copy(
+                            alpha = Constants.digital.f06
+                        ) else Color.Green.copy(alpha = Constants.digital.f06),
+                        onClick = {},
+                        isChecked = false
+                    )
+                    Divider(
+                        modifier = Modifier.padding(
+                            start = Constants.dimensions.x2_5,
+                            end = Constants.dimensions.x2_5,
+                        ),
+                        color = Color.LightGray,
+                    )
                 }
             }
         }
@@ -124,16 +121,13 @@ private fun CreateScreen() {
                 bottomEnd = Constants.dimensions.x3,
                 bottomStart = Constants.dimensions.x3
             ),
-            enabled = state.clickedCity.isNotEmpty(),
-            onClick = { event.invoke(FeatureCityListContract.Event.ActionsEvent.GoToSecondScreen) },
+            onClick = { event.invoke(FeatureCharingStationsContract.Event.ActionsEvent.GoToBack) },
         ) {
             Text(
-                text = stringResource(id = R.string.approve),
+                text = stringResource(id = R.string.back),
                 fontSize = Constants.fontSize.f16,
                 color = Color.White
             )
         }
     }
 }
-
-
